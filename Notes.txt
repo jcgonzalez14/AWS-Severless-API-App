@@ -1,0 +1,27 @@
+Udemy AWS Severless- API & Apps Course Notes
+
+Section 1.6 
+- There are more advanced ways of creating APIs (e.g. by importing API definition files).
+- Mock response under the "Get" Method is a dummy response. 
+- Stages are a feature which allow you to manage different versions of the API, like a development API and a production API.
+- remember to add to the end of the link. https://l3dtr5aq3b.execute-api.us-east-2.amazonaws.com/Development/first-api-udemy 
+
+Section 1.7
+-Alternates to AWS include Microsoft's Azure and Google Cloud Platform
+
+Section 2.1 
+-S3 (Simple Storage Service)
+  - doesn't support any server-side code
+-API Gateway
+  - a service to create API with different paths and HTTP methods we want to handle
+-Lambda
+  - allows you to execute code on demand
+-DynamoDB
+  - NoSQL database where we don't have to provision any database servers. 
+-Cognito
+  - creates user pools to allow users to sign-up and then sign themselves in.
+-Route 53
+  - allows us to register and configure our own domain. 
+-Cloud front (optional)
+  - caching service used to improve performance and delivery time 
+  - basically copy your static files to always have the quickest route possible
