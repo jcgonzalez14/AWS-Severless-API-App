@@ -65,6 +65,32 @@ Section 3.22\
 - an endpoint is made up of two things:\
    - resource: the path to which the request should get sent \
    - method: the type of request\
+- you can test an endpoint inside API Gateway so we don\'92t have to set up a client to do the testing\
+- Method Request (the first box) defines how requests reaching this endpoint should actually look like. It\'92s like a gatekeeper that can deny/accept\
+	- You can validate your request using 3 types:\
+	  - URL Query String Parameters: this is the text after the ? mark at the end\
+	  - HTTP Request Headers: header fits our scheme or needs\
+	  - Request Body: you can connect it to a model.\
+\
+Section 3.23\
+- Integration Request: mapping or transforming incoming data (not just the body, but header or metadata like authenticated users) into a particular shape we want to use it on the action we are about to trigger.\
+  - the role of the integration request is to trigger the endpoint.\
+\
+- integration Response: allows us to configure the response we\'92re sending back; opposite to what the integration request does. \
+  - It fills that shape with life and is non-binding.\
+- Method Response: defines the shape our response should have. Will never block the response because we always want to send back a response. You must first configure the headers under Method Response to be able to adjust them in the Integration Response. \
+   - Method Response defines the boundaries of the set up\
+\
+Section 3.24\
+- Swagger: is a definition or language which allows you define an API as a text file then import it AWS API Gateway\
+\
+Section 3.25\
+- selecting the 
+\f1\i Configure as proxy resource 
+\f0\i0 means this will be a catch-all resource, catching all other paths and methods. A flexible path that could capture all requests if needed. Why do that?\
+   - great for single page apps but it is limited to full-stack apps\
+   - you capture all requests and send it to a Lambda function that will handle all requests (effectively creating a full-stack app with a server-less approach)\
+- API Gateway CORS (Cross Origin Resource Sharing): a security model where, in general, we are not allows to access resources on a server from another server.\
 \
 \
 }
