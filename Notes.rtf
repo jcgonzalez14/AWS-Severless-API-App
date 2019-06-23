@@ -1,8 +1,9 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf500
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww15480\viewh8320\viewkind0
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;\f2\froman\fcharset0 Times-Roman;
+\f3\fswiss\fcharset0 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\margl1440\margr1440\vieww15620\viewh8320\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 Udemy AWS Severless- API & Apps Course Notes\
@@ -38,8 +39,8 @@ Section 3.16\
 -API Gateways can create endpoints, which are combinations of resources, paths and HTTP methods so that you can get URLs.\
 \
 Section 3.19\
-- API keys are interesting if you plan on creating an API  which is shared with other developers\
-- API keys used to identify the calling program, its developer, or its user to the Web site. API keys are used to track and control how the API is being used\
+- API keys are useful if you plan on creating an API  which is shared with other developers\
+- API keys are used to identify the calling program, its developer, or its user to the Web site. API keys are used to track and control how the API is being used\
 - Example: if you want to use Google Maps' API, you register with Google and they will provide you an API key. With that API key, you will pass with any request to identify yourself while Google will also track your usage.\
 - API Gateways allows you to individually grant API keys but you also have an automatic system where people can register for your API. \
 - 
@@ -88,11 +89,11 @@ Section 3.25\
 - selecting the 
 \f1\i Configure as proxy resource 
 \f0\i0 means this will be a catch-all resource, catching all other paths and methods. A flexible path that could capture all requests if needed. Why do that?\
-   - great for single page apps but it is limited to full-stack apps\
-   - you capture all requests and send it to a Lambda function that will handle all requests (effectively creating a full-stack app with a server-less approach)\
-- API Gateway CORS (Cross Origin Resource Sharing): a security model where, in general, we are not allows to access resources on a server from another server. One server needs to send the right headers telling the browser that this cross site access is OK. \
+	- great for single page apps but it is limited to full-stack apps\
+	- you capture all requests and send it to a Lambda function that will handle all requests (effectively creating a full-stack app with a server-less approach)\
+- API Gateway CORS (Cross Origin Resource Sharing): a security model where, in general, we are not allowed to access resources on a server from another server. One server needs to send the right headers telling the browser that this cross site access is OK. \
 - Modern browsers send preflight requests that check if the resource or the post request is about to get to, is actually available and/or allowed.\
-   - this extra request will be of type options, HTTP verb. Therefore, you need to provide an options endpoint so that the incoming request will be handled appropriately and return the right CORs headers to tell Chrome that it is okay to send POST request 
+	- this extra request will be of type options, HTTP verb. Therefore, you need to provide an options endpoint so that the incoming request will be handled appropriately and return the right CORs headers to tell Chrome that it is okay to send POST request 
 \f1\i EVEN though we are using different resources, different servers. \
 - 
 \f0\i0 Integration type simply means which kind of action do you want to execute whenever a request hits this resource. \
@@ -128,7 +129,7 @@ Section 3.36\
 \
 Section 3.37\
 - Lambda stores its logs inside of another service called \'93Cloudwatch\'94\
-- Pro for using the \'93Use Lambda Proxy Integration\'94 that returns all of the data is you get more info while the Con is that it takes a significant amount of work to access the body by Lambda that should be handled by API Gateway. There is a nicer alternative. \
+- Pro for using the \'93Use Lambda Proxy Integration\'94 that returns all of the data is you get more info while the Con is that it takes a significant amount of work to access the body by Lambda that should be handled by API Gateway.\
 \
 Section 3.38\
 - the name \'93application/json\'94 means that incoming requests with \'93Content-Type\'94 of \'93application/json\'94 will be handled by this template. \
@@ -143,5 +144,64 @@ Section 3.39\
 Section 3.40\
 - In the API\'92s Gateway templating language, \'93$input\'94 refers to your data. It is a reserved variable. \
 - pay attention to the naming of the properties (age) that are feed into your action (Lambda function)\
+\
+Section 3.42\
+- \'93$input\'94 is the callback info sent back by Lambda, \'93json(\'91$\'92)\'94 then gives us back all the data passed with the callback. \
+- The philosophy here is we don\'92t have to adjust our Lambda function to our client, we only have to adjust our API Gateway to our client and transform the data we get back. However, I can see instances where different clients with different necessities might need the data in a different format so Lambda might be the place to identify that and adjust the data there. Might be possible to do it in API Gateway too.\
+\
+Section 3.43\
+- status code 400: request is blocked\
+\
+Section 3.44\
+- JSON schemas: {\field{\*\fldinst{HYPERLINK "http://json-schema.org/understanding-json-schema/index.html"}}{\fldrslt 
+\f2 \cf2 \expnd0\expndtw0\kerning0
+\ul \ulc2 \outl0\strokewidth0 \strokec2 http://json-schema.org/understanding-json-schema/index.html}}\
+\
+Section 3.45\
+- the whole idea of using models is optional however with API Gateway, you get an out-of-the-box working implementation of validation which returns an error if it fails. \
+- you can also use models to map data apart from validation.\
+- $input.path(\'91$\'92) is all the data that is returned by Lambda. \
+\
+Assignment 2\
+- In mapping techniques, you are transforming data. In models, you are defining the structure of the data. \
+\
+Section 3.48 (
+\f3\b\fs26 Don\'92t Fully Understand, need to revisit
+\f0\b0\fs24 )\
+- Need to understand the difference between path variable vs query parameters \
+- Adding a GET METHOD with a variable path that is flexible.\
+- You can add path parameters using brackets. For example, the resource path \{username\} represents a path parameter called 'username'.\
+	- \{parmeter\}\
+- API Gateway automatically detects the number of parameters. \
+- The default of the integration request is to pass only the request body \
+   - the problem here is that the GET request doesn\'92t have a request body so the data has to be encoded in the URL\
+   - that is the reason why we are using a template. \
+- API Gateway manages a 
+\f1\i params 
+\f0\i0 object where it has key-value pairs\
+	- where the keys are the names we specify here between the curly braces (parameter) and \
+	- the values are the actual values we then send when we replace these dynamic values with 
+\f1\i real values in the URL.
+\f0\i0 \
+	- Example: if our URL is 
+\f1\i myapi.com/\{type\}. 
+\f0\i0 Then in practice we send a request 
+\f1\i myapi.com/all
+\f0\i0  or 
+\f1\i myapi.com/single
+\f0\i0 . API Gateway will extract that value (
+\f1\i all 
+\f0\i0 or 
+\f1\i single
+\f0\i0 ) and store it in this 
+\f1\i params
+\f0\i0  object.\
+- in order for the response to be passed as a string, we need to enclose value we extract from the URL in double quotation marks like so:\
+	- \{ \'93type\'94: 
+\f1\i \'93$input.params(\'91type\'92)\'94  
+\f0\i0 \}\
+	- because in this case, our lambda function is comparing the value to a string. \
+\
+\
 \
 }
