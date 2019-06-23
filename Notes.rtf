@@ -90,7 +90,58 @@ Section 3.25\
 \f0\i0 means this will be a catch-all resource, catching all other paths and methods. A flexible path that could capture all requests if needed. Why do that?\
    - great for single page apps but it is limited to full-stack apps\
    - you capture all requests and send it to a Lambda function that will handle all requests (effectively creating a full-stack app with a server-less approach)\
-- API Gateway CORS (Cross Origin Resource Sharing): a security model where, in general, we are not allows to access resources on a server from another server.\
+- API Gateway CORS (Cross Origin Resource Sharing): a security model where, in general, we are not allows to access resources on a server from another server. One server needs to send the right headers telling the browser that this cross site access is OK. \
+- Modern browsers send preflight requests that check if the resource or the post request is about to get to, is actually available and/or allowed.\
+   - this extra request will be of type options, HTTP verb. Therefore, you need to provide an options endpoint so that the incoming request will be handled appropriately and return the right CORs headers to tell Chrome that it is okay to send POST request 
+\f1\i EVEN though we are using different resources, different servers. \
+- 
+\f0\i0 Integration type simply means which kind of action do you want to execute whenever a request hits this resource. \
+- Selecting Integration type: HTTP means we can forward it to another API.\
+- Selecting the \'93Use Lambda Proxy Integration\'94 box, means that takes the incoming request and the request\'92s metadata and pass that unfiltered data as a JSON object to the Lambda function. \
+   - This also means that in the Lambda function, you will have to extract what you need and in the end you will have to send back a response from Lambda. This means you won\'92t be using the native tools API Gateway gives you, like the integration response and integration request.\
 \
+Section 3.31\
+- index.handler defines the entry point of your lambda code execution.\
+  - Index.handler means whenever Lambda executes, it will not automatically run all JavaScript. Instead, it will run the file name \'93index\'94 with the function \'93handler. Basically, 
+\f1\i file.function
+\f0\i0 \
+\
+Section 3.34\
+- It is important to test from the web (codepen.io) because CORS errors won\'92t pop up if you just test it in the API console.\
+   - As how it is current set up, you will need to set up CORS headers on each method and not just on the OPTIONS method. \
+\
+Assignment 1 \
+- Instead of setting up the CORS headers manually by going into Method Response, then Integration Response for every single method, you can automatically set it up by selecting \'93
+\f1\i Enable CORS
+\f0\i0 \'94
+\f1\i  
+\f0\i0 under Actions.\
+\
+\
+Section 3.35\
+- remember to enclose in parentheses the JSON properties of the Request Body\
+- there are two points where you can adjust the data: Integration Request and Integration Response.\
+\
+Section 3.36\
+- Using  \'93Use Lambda Proxy Integration\'94 box, sends all the data to the Lambda function instead of just the request body. \
+- If you notice a section, like \'93Integration Response\'94, is grayed out then that means the data never gets to the part primarily because the request doesn\'92t fit the schema of the response.\
+\
+Section 3.37\
+- Lambda stores its logs inside of another service called \'93Cloudwatch\'94\
+- Pro for using the \'93Use Lambda Proxy Integration\'94 that returns all of the data is you get more info while the Con is that it takes a significant amount of work to access the body by Lambda that should be handled by API Gateway. There is a nicer alternative. \
+\
+Section 3.38\
+- the name \'93application/json\'94 means that incoming requests with \'93Content-Type\'94 of \'93application/json\'94 will be handled by this template. \
+- Integration request is where you can transform the incoming data and pass that same data in another shape.\
+\
+Section 3.39\
+- AWS API Gateway has a language (templating language) that we can use to extract data from the request, in this case body mapping templates, which you can select by selecting \'93Method Request passthrough\'94 (uses Apache\'92s Velocity language). There is official documentation\
+- this allows to you to not forward the entire request but a forwarding a mapped template (or a mapped event data object) with data from the request. In short, it simply allows you to control which data your action receives. \
+   - the power lies in not having to parse JSON data because it is already a mapped JavaScript object instead\
+   - also doesn\'92t override the Integration response. \
+\
+Section 3.40\
+- In the API\'92s Gateway templating language, \'93$input\'94 refers to your data. It is a reserved variable. \
+- pay attention to the naming of the properties (age) that are feed into your action (Lambda function)\
 \
 }
